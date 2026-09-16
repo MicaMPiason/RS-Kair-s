@@ -17,7 +17,8 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+html { scrollbar-width: none; scroll-behavior: smooth; scroll-padding-top: 88px; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
 body { margin: 0; overflow-x: hidden; color: var(--text); background: var(--cream); font-family: Manrope, Inter, Arial, sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 body.menu-open { overflow: hidden; }
 img { display: block; max-width: 100%; }
@@ -56,7 +57,8 @@ h3 { color: var(--navy); font-size: 1.35rem; }
 .brand-copy { display: flex; flex-direction: column; line-height: 1; }
 .brand-copy b { font-size: 1.06rem; letter-spacing: -.03em; }
 .brand-copy small { margin-top: 5px; font-size: .58rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
-.desktop-nav { display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); }
+.desktop-nav { display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); transition: transform .3s ease; }
+.site-header:not(.scrolled) .desktop-nav { transform: translateY(-11px); }
 .desktop-nav a { position: relative; font-size: .79rem; font-weight: 600; opacity: .9; }
 .desktop-nav a::after { content: ""; position: absolute; right: 0; bottom: -8px; left: 0; height: 2px; border-radius: 2px; background: var(--green); transform: scaleX(0); transition: transform .25s; }
 .desktop-nav a:hover::after { transform: scaleX(1); }
@@ -84,14 +86,18 @@ h3 { color: var(--navy); font-size: 1.35rem; }
 .scroll-cue span::after { content: ""; display: block; width: 3px; height: 7px; margin: 7px auto; border-radius: 3px; background: var(--green); animation: scrollDot 1.8s infinite; }
 @keyframes scrollDot { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(13px); } }
 
-.trust-strip { position: relative; z-index: 3; background: var(--white); box-shadow: 0 10px 30px rgba(18,53,84,.06); }
-.trust-grid { display: grid; grid-template-columns: repeat(4,1fr); }
-.trust-grid article { display: flex; align-items: center; gap: 13px; padding: 27px 20px; border-right: 1px solid #e7ebed; }
-.trust-grid article:last-child { border: 0; }
-.trust-grid strong, .trust-grid small { display: block; }
-.trust-grid strong { color: var(--navy); font-size: .83rem; }
-.trust-grid small { margin-top: 2px; color: var(--muted); font-size: .67rem; }
-.icon-box { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 12px; background: var(--sky); color: var(--blue-2); }
+.partners-strip { position: relative; z-index: 3; display: flex; min-height: 96px; align-items: stretch; overflow: hidden; border-bottom: 1px solid rgba(18,53,84,.08); background: var(--white); box-shadow: 0 10px 30px rgba(18,53,84,.06); }
+.logo-marquee { position: relative; display: flex; min-width: 0; flex: 1; align-items: center; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.logo-marquee-track { --logo-gap: 58px; display: flex; width: max-content; align-items: center; gap: var(--logo-gap); animation: logoMarquee 34s linear infinite; will-change: transform; }
+.logo-marquee:hover .logo-marquee-track { animation-play-state: paused; }
+.logo-marquee-group { display: flex; flex-shrink: 0; align-items: center; gap: var(--logo-gap); }
+.partner-logo { display: grid; width: 138px; height: 58px; flex: 0 0 138px; place-items: center; }
+.partner-logo img { display: block; max-width: 124px; max-height: 36px; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter .3s, opacity .3s, transform .3s; }
+.partner-logo:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.04); }
+.partner-logo-lg img { max-width: 102px; max-height: 48px; }
+.partner-logo-samsung img { max-width: 138px; max-height: 58px; }
+.partner-logo-elgin img { max-width: 106px; max-height: 28px; }
+@keyframes logoMarquee { to { transform: translateX(calc(-50% - var(--logo-gap) / 2)); } }
 .air-pattern { background-color: var(--cream); background-image: radial-gradient(circle at 15% 18%, rgba(36,116,181,.055), transparent 19%), radial-gradient(circle at 87% 82%, rgba(114,214,0,.04), transparent 20%); }
 .section-heading { display: grid; grid-template-columns: 1.45fr .7fr; align-items: end; gap: 90px; margin-bottom: 48px; }
 .section-heading h2 { max-width: 720px; margin-bottom: 0; }
@@ -309,12 +315,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue-2); box-sha
   .hero-buttons .button { width: 100%; }
   .hero-trust { display: none; }
   .scroll-cue { display: none; }
-  .trust-grid { grid-template-columns: 1fr 1fr; padding: 10px 0; }
-  .trust-grid article { padding: 16px 5px; border-right: 0; }
-  .trust-grid article:nth-child(-n+2) { border-bottom: 1px solid #edf0f2; }
-  .trust-grid small { display: none; }
-  .trust-grid strong { font-size: .69rem; }
-  .icon-box { width: 36px; height: 36px; flex-basis: 36px; }
+  .partners-strip { min-height: 72px; }
+  .logo-marquee { min-height: 72px; }
+  .logo-marquee-track { --logo-gap: 28px; animation-duration: 24s; }
+  .partner-logo { width: 92px; height: 48px; flex-basis: 92px; }
+  .partner-logo-lg img { max-width: 72px; max-height: 35px; }
+  .partner-logo-samsung img { max-width: 94px; max-height: 43px; }
+  .partner-logo-elgin img { max-width: 74px; max-height: 21px; }
   .section-heading { grid-template-columns: 1fr; gap: 16px; margin-bottom: 35px; }
   .service-grid { grid-template-columns: 1fr; }
   .service-visual { height: 175px; }
@@ -360,8 +367,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue-2); box-sha
 @media (max-width: 420px) {
   .hero-bg { background-position: 50% center; }
   .hero-content { padding-top: 310px; }
-  .trust-grid { grid-template-columns: 1fr; }
-  .trust-grid article { border-bottom: 1px solid #edf0f2; }
   .process-grid { grid-template-columns: 1fr; }
   .check-list { grid-template-columns: 1fr; }
 }
@@ -369,4 +374,5 @@ input:focus, select:focus, textarea:focus { border-color: var(--blue-2); box-sha
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .logo-marquee-track { animation: none !important; transform: none !important; }
 }

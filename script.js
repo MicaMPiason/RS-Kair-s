@@ -73,12 +73,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    gsap.from('.trust-grid article', {
-      y: 18,
-      autoAlpha: 0,
-      duration: .5,
-      stagger: .08,
-      scrollTrigger: { trigger: '.trust-strip', start: 'top 90%', once: true }
-    });
   }
 });
