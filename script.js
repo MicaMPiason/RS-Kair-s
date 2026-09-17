@@ -2,25 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
   const header = document.querySelector('.site-header');
-  const menuButton = document.querySelector('.menu-toggle');
-  const mobileMenu = document.querySelector('.mobile-menu');
 
   const updateHeader = () => header.classList.toggle('scrolled', window.scrollY > 40);
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
-
-  menuButton.addEventListener('click', () => {
-    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!isOpen));
-    mobileMenu.classList.toggle('open', !isOpen);
-    document.body.classList.toggle('menu-open', !isOpen);
-  });
-
-  mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    menuButton.setAttribute('aria-expanded', 'false');
-    mobileMenu.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  }));
 
   const toast = document.querySelector('.toast');
   const showToast = (message) => {
